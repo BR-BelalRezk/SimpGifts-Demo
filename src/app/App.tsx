@@ -32,7 +32,7 @@ export default function App() {
             </ul>
           </div>
         </div>
-        <ul className="flex items-center justify-center gap-6 text-lg lg:gap-10 lg:text-xl">
+        <ul className="flex items-center justify-center gap-5 text-lg lg:gap-10 lg:text-xl">
           <li>Profile</li>
           <li>Personal Details</li>
           <li>Links</li>
