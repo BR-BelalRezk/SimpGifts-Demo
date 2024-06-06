@@ -4,13 +4,13 @@ import { MdEdit, MdOutlineAddPhotoAlternate } from "react-icons/md";
 import DropDown from "./DropDown";
 
 export default function Form() {
-  const [index, setIndex] = useState(0);
+  const [step, setStep] = useState(1);
   return (
     <section className=" min-h-screen w-full p-8 overflow-hidden bg-stone-700 flex items-center justify-center">
       <FormBox role="outerBox">
         <FormBox role="innerBox">
-          <FormWrapper index={index} />
-          <Carousel index={index} setIndex={setIndex} />
+          <FormWrapper step={step} />
+          <Carousel step={step} setStep={setStep} />
         </FormBox>
       </FormBox>
     </section>
@@ -38,10 +38,13 @@ function FormBox({
   );
 }
 
-function FormWrapper({ index }: { index: number }) {
+function FormWrapper({ step }: { step: number }) {
   return (
     <div className={`forms-wrap absolute h-full w-[45%] top-0 left-0 lg:pr-5 `}>
-      <form className="flex flex-col" onSubmit={(e) => e.preventDefault()}>
+      <form
+        className="flex flex-col size-full"
+        onSubmit={(e) => e.preventDefault()}
+      >
         <figure>
           <img src="/logo.avif" alt="" />
         </figure>
@@ -49,14 +52,24 @@ function FormWrapper({ index }: { index: number }) {
           <MdEdit className="text-3xl text-[#b42318]" />
           <h2 className=" font-semibold text-xl">Gift Details</h2>
         </div>
+        <AnimatePresence mode="wait">{step === 1 && <Form1 />}</AnimatePresence>
+        <AnimatePresence mode="wait">{step === 2 && <Form2 />}</AnimatePresence>
+        <AnimatePresence mode="wait">{step === 3 && <Form3 />}</AnimatePresence>
         <AnimatePresence mode="wait">
-          {index === 0 && <Form1 />}
-        </AnimatePresence>
-        <AnimatePresence mode="wait">
-          {index === 1 && <Form2 />}
-        </AnimatePresence>
-        <AnimatePresence mode="wait">
-          {index === 2 && <Form3 />}
+          {step === 4 && (
+            <motion.p
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                transition: { delay: 0.5, ease: "easeInOut", duration: 0.3 },
+              }}
+              exit={{ opacity: 0, scale: 0 }}
+              className=" flex items-center justify-center size-full text-3xl text-stone-500"
+            >
+              You are Ready!
+            </motion.p>
+          )}
         </AnimatePresence>
       </form>
     </div>
@@ -64,38 +77,145 @@ function FormWrapper({ index }: { index: number }) {
 }
 
 function Carousel({
-  index,
-  setIndex,
+  step,
+  setStep,
 }: {
-  index: number;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
+  step: number;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   return (
-    <div className="carousel absolute h-full w-[55%] top-0 left-[45%]  bg-[#fee4e2] rounded-xl flex p-5">
-      <div className="flex w-full flex-col gap-5 self-end">
-        <div className="w-full">
-          <button className="bg-[#b42318] w-full px-5 py-2 rounded-full text-white font-medium disabled:opacity-50">
-            Add Gift
-          </button>
-        </div>
-        <div className="  flex items-center justify-between w-full">
-          <button
-            disabled={index === 0 && true}
-            onClick={() => setIndex((prevState) => prevState - 1)}
-            className="bg-[#b42318] px-5 py-1 rounded-full text-white font-medium disabled:opacity-50"
-          >
-            Back
-          </button>
-          <button
-            disabled={index === 2 && true}
-            onClick={() => setIndex((prevState) => prevState + 1)}
-            className="bg-[#b42318] px-5 py-1 rounded-full text-white font-medium disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
+    <div className="carousel absolute h-full w-[55%] top-0 left-[45%]  bg-[#fee4e2] rounded-xl flex p-5 flex-col justify-between">
+      <Steps step={step} />
+      <ControlButtons step={step} setStep={setStep} />
+    </div>
+  );
+}
+
+function ControlButtons({
+  step,
+  setStep,
+}: {
+  step: number;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  return (
+    <div className="flex w-full flex-col gap-5 self-end">
+      <div className="w-full">
+        <button className="bg-[#b42318] w-full px-5 py-2 rounded-full text-white font-medium disabled:opacity-50">
+          Add Gift
+        </button>
+      </div>
+      <div className="  flex items-center justify-between w-full">
+        <button
+          disabled={step === 1 && true}
+          onClick={() => setStep((prevState) => prevState - 1)}
+          className="bg-[#b42318] px-5 py-1 rounded-full text-white font-medium disabled:opacity-50"
+        >
+          Back
+        </button>
+        <button
+          disabled={step === 4 && true}
+          onClick={() => setStep((prevState) => prevState + 1)}
+          className="bg-[#b42318] px-5 py-1 rounded-full text-white font-medium disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
     </div>
+  );
+}
+
+function Steps({ step }: { step: number }) {
+  return (
+    <ul className="flex items-center justify-between w-full self-start">
+      <Step step={1} currentStep={step} />
+      <Step step={2} currentStep={step} />
+      <Step step={3} currentStep={step} />
+    </ul>
+  );
+}
+
+function Step({ step, currentStep }: { step: number; currentStep: number }) {
+  const status =
+    currentStep === step
+      ? "active"
+      : currentStep < step
+      ? "inactive"
+      : "complete";
+  return (
+    <li className=" relative">
+      <motion.div
+        animate={status}
+        variants={{
+          active: {
+            scale: 1.15,
+          },
+          complete: {
+            scale: 1.3,
+          },
+        }}
+        transition={{
+          delay: 0.2,
+          duration: 0.5,
+          type: "tween",
+          ease: "circOut",
+        }}
+        className="absolute inset-0 rounded-full bg-red-200 scale-125"
+      />
+      <motion.div
+        initial={false}
+        variants={{
+          inactive: {
+            backgroundColor: "#fff",
+            borderColor: "#e2e8f0",
+            color: "#44403c",
+          },
+          active: {
+            backgroundColor: "#fff",
+            borderColor: "#ef4444",
+            color: '"#ef4444"',
+          },
+          complete: {
+            backgroundColor: "#ef4444",
+            borderColor: "#ef4444",
+            color: "#ef4444",
+          },
+        }}
+        animate={status}
+        transition={{ duration: 0.5 }}
+        className={`flex size-10 items-center justify-center rounded-full border-2 font-semibold relative`}
+      >
+        <div className="flex items-center justify-center">
+          {status === "complete" ? <CheckIcon /> : <span>{step}</span>}
+        </div>
+      </motion.div>
+    </li>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg
+      className="size-6 text-white"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={3}
+    >
+      <motion.path
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{
+          delay: 0.2,
+          duration: 0.3,
+          type: "tween",
+          ease: "easeOut",
+        }}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M5 13l4 4L19 7"
+      />
+    </svg>
   );
 }
 
