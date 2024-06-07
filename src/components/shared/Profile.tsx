@@ -1,3 +1,3 @@
 export default function Profile() {
-  return <div>Profile</div>;
+  return <section className="size-full">Profile</section>;
 }

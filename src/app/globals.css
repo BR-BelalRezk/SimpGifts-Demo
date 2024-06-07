@@ -8,19 +8,18 @@
   box-sizing: border-box;
 }
 
-::-webkit-scrollbar {
+.formScrollBar::-webkit-scrollbar {
   width: 10px;
-  border-radius: 9999px;
 }
 
 /* Track */
-::-webkit-scrollbar-track {
+.formScrollBar::-webkit-scrollbar-track {
   background: #fee4e2;
   border-radius: 9999px;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+.formScrollBar::-webkit-scrollbar-thumb {
   background: #b42318;
   border-radius: 9999px;
 }

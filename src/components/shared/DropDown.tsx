@@ -38,7 +38,9 @@ export default function DropDown({ text }: { text: string }) {
         </motion.div>
       </motion.div>
       <motion.ul
-        className=" absolute top-10 -right-10 bg-slate-100/80 backdrop-blur-sm w-40 p-5"
+        className={` absolute top-10  bg-red-100 shadow-xl  backdrop-blur-sm w-40 p-5 ${
+          text === "USD($)" ? "-right-16" : "-right-3"
+        }`}
         variants={{
           open: {
             clipPath: "inset(0% 0% 0% 0% round 10px)",
@@ -55,7 +57,7 @@ export default function DropDown({ text }: { text: string }) {
             transition: {
               type: "spring",
               bounce: 0,
-              duration: 0.3,
+              duration: 0.5,
             },
           },
         }}

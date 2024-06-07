@@ -3,19 +3,21 @@ import DropDown from "./DropDown";
 
 export default function Form() {
   return (
-    <section className="h-screen w-full py-8 bg-stone-950">
+    <section className="size-full py-5 bg-stone-950">
       <div className="size-full flex items-center justify-center">
         <form
           action=""
           className="w-full mx-2.5 lg:mx-0 max-w-sm bg-white h-[80vh] rounded-3xl overflow-hidden"
         >
           <div className=" relative p-5 size-full">
-            <div className="h-[40%] pb-5">
-              <FormHeader />
+            <div className="h-[20%]">
+              <div className=" absolute top-5 right-5 text-3xl">
+                <MdClose />
+              </div>
               <FormHeading />
             </div>
 
-            <div className="mt-5 w-full  relative h-[50%] overflow-scroll overflow-x-hidden p-2.5">
+            <div className="mt-5 w-full  relative h-[70%] overflow-scroll overflow-x-hidden p-2.5 formScrollBar">
               <div className="size-full">
                 <div className="flex flex-col items-center justify-center gap-10">
                   <div className="p-10 border-red-200 border-2 rounded-3xl">
@@ -53,7 +55,7 @@ export default function Form() {
                       <textarea
                         name="note"
                         id="note"
-                        className="w-full h-40 border-red-950 border-2 outline-none rounded-xl p-2.5"
+                        className="w-full h-40 max-h-40 min-h-40 border-red-950 border-2 outline-none rounded-xl p-2.5"
                       />
                     </div>
                   </div>
@@ -99,17 +101,6 @@ function FormHeading() {
         <span className=" absolute inset-0 scale-[1.3] size-full bg-red-200 z-10 rounded-full" />
       </div>
       <span className="text-2xl font-semibold text-red-950">Gift Details</span>
-    </div>
-  );
-}
-
-function FormHeader() {
-  return (
-    <div className="w-full">
-      <figure>
-        <img src="logo.avif" alt="" />
-      </figure>
-      <MdClose className=" absolute top-5 right-5 text-3xl" />
     </div>
   );
 }
