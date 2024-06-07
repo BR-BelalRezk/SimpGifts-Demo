@@ -20,10 +20,10 @@ export default function DropDown({ text }: { text: string }) {
       animate={isOpen ? "open" : "closed"}
       className=" relative"
     >
-      <motion.button
+      <motion.div
         whileTap={{ scale: 0.97 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-center gap-3"
+        className="flex items-center justify-center gap-3 text-red-950 cursor-pointer"
       >
         {text}
         <motion.div
@@ -36,7 +36,7 @@ export default function DropDown({ text }: { text: string }) {
         >
           <FaChevronUp />
         </motion.div>
-      </motion.button>
+      </motion.div>
       <motion.ul
         className=" absolute top-10 -right-10 bg-slate-100/80 backdrop-blur-sm w-40 p-5"
         variants={{
